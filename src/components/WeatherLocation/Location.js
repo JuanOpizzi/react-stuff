@@ -9,8 +9,8 @@ const  Location = ({ city }) => {
     )
 }
 
-Location.PropTypes = {
-  city: PropTypes.string.isRequired,
+Location.propTypes = {
+  city: PropTypes.string
 }
 
-export default Location;
+export default Location

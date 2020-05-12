@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import WeatherData from './WeatherData';
 
 const  WeatherExtraInfo = ({ humidity, wind }) => {
     return (
@@ -11,7 +10,7 @@ const  WeatherExtraInfo = ({ humidity, wind }) => {
     )
 }
 
-WeatherExtraInfo.PropTypes = {
+WeatherExtraInfo.propTypes = {
   humidity: PropTypes.number.isRequired,
   wind:     PropTypes.string.isRequired,
 }

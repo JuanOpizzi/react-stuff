@@ -7,6 +7,12 @@ import {
   CLOUDY,
 } from './../../constants/weathers';
 
+const location = "Buenos Aires,ar";
+const api_key = "b6b1125383df7195a4df361789c39110";
+const url_base_weather = "http://api.openweathermap.org/data/2.5/weather";
+
+const api_weather = `${url_base_weather}?q=${location}&appid=${api_key}`;
+
 const data = {
 	temperature: 5,
 	weatherState: SUN,
@@ -35,10 +41,14 @@ class  WeatherLocation extends Component {
 	}
 
 	handleUpdateClick = () => {
+		// fetch trae los datos del server para poder
+		// usarlos en nuestro navegador
+		fetch(api_weather);
 		console.log('Actualizado');
 		//! si no uso setState, la informacion no se actualiza nunca
 		this.setState({ 
-			city: 'Buenos Aires!!',
+			// No hace falta pasar todos los datos, solo los que se van a cambiar
+			// es decir, no le paso city porque no lo voy a cambiar
 			data: data2,
 		})
 	}

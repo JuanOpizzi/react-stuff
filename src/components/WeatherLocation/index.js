@@ -43,7 +43,16 @@ class  WeatherLocation extends Component {
 	handleUpdateClick = () => {
 		// fetch trae los datos del server para poder
 		// usarlos en nuestro navegador
-		fetch(api_weather);
+		fetch(api_weather).then( resolve => {
+			// esto va a devolver una promises, con los datos del clima que
+			// recibo del server, sino hago esto solo voy a ver la informacion
+			// de cabecera, pero no los datos que quiero
+			return resolve.json;
+		}).then(data => {
+			console.log(data);
+			debugger;
+		});
+
 		console.log('Actualizado');
 		//! si no uso setState, la informacion no se actualiza nunca
 		this.setState({ 

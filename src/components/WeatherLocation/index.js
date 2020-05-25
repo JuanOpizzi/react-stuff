@@ -4,7 +4,6 @@ import WeatherData from './WeatherData';
 import './styles.css';
 import {
   SUN,
-  CLOUDY,
 } from './../../constants/weathers';
 
 const location = "Buenos Aires,ar";
@@ -17,13 +16,6 @@ const data = {
 	temperature: 5,
 	weatherState: SUN,
 	humidity: 10,
-	wind: '10 m/s',
-}
-
-const data2 = {
-	temperature: 20,
-	weatherState: CLOUDY,
-	humidity: 5,
 	wind: '10 m/s',
 }
 
@@ -40,6 +32,25 @@ class  WeatherLocation extends Component {
 		}
 	}
 
+	getWeatherState = weather_data => {
+		return SUN;
+	}
+
+	getData = weather_data => {
+		const { humidity, temp }	= weather_data.main;
+		const { speed }			= weather_data.wind;
+		const	weatherState	= this.getWeatherState(weather_data);
+
+		const data = {
+			humidity,
+			temperature: temp,
+			weatherState,
+			wind: `${speed} m/s`,
+		}
+
+		return data;
+	}
+
 	handleUpdateClick = () => {
 		// fetch trae los datos del server para poder
 		// usarlos en nuestro navegador
@@ -49,17 +60,17 @@ class  WeatherLocation extends Component {
 			// de cabecera, pero no los datos que quiero
 			return resolve.json;
 		}).then(data => {
-			console.log(data);
+			const newWeather = this.getData(data);
+			console.log(newWeather);
 			debugger;
+			//! si no uso setState, la informacion no se actualiza nunca
+			this.setState({ 
+				// No hace falta pasar todos los datos, solo los que se van a cambiar
+				// es decir, no le paso city porque no lo voy a cambiar
+				data: newWeather,
+			})
 		});
 
-		console.log('Actualizado');
-		//! si no uso setState, la informacion no se actualiza nunca
-		this.setState({ 
-			// No hace falta pasar todos los datos, solo los que se van a cambiar
-			// es decir, no le paso city porque no lo voy a cambiar
-			data: data2,
-		})
 	}
 	render() {
 		// aprovecho destructuring para no poner todo el tiempo this.state

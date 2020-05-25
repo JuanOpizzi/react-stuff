@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
-import convert from 'convert-units'; // libreria para cambiar de unidades
+import transformWeather from "./../../services/transformWeather";
+// se pone llaves cuando al exportar no se utiliza la palabra "default"
+import { api_weather } from './../../constants/api_url';
 import Location from './Location';
 import WeatherData from './WeatherData';
 import './styles.css';
 import {
   SUN,
 } from './../../constants/weathers';
-
-const location = "Buenos Aires,ar";
-const api_key = "b6b1125383df7195a4df361789c39110";
-const url_base_weather = "http://api.openweathermap.org/data/2.5/weather";
-
-const api_weather = `${url_base_weather}?q=${location}&appid=${api_key}`;
 
 const data = {
 	temperature: 5,
@@ -33,34 +29,6 @@ class  WeatherLocation extends Component {
 		}
 	}
 
-	// paso la temperatura de kelvin a celsius de 2 decimales
-	getTemp = kelvin => {
-		return Number(convert(kelvin).from("K").to("C").toFixed(2));
-	}
-
-	// obtengo el estado del clima
-	getWeatherState = weather_data => {
-		return SUN;
-	}
-
-	getData = weather_data => {
-		const { humidity, temp }	= weather_data.main;
-		const { speed }			= weather_data.wind;
-		const	weatherState	= this.getWeatherState(weather_data);
-		const temperature 	= this.getTemp(temp);
-
-		// aca hay sintatic sugar, si lo que recibo se llama igual donde lo guardo,
-		// puedo hacerme el ahorro de escribirlo 2 veces
-		const data = {
-			humidity,
-			temperature,
-			weatherState,
-			wind: `${speed} m/s`,
-		}
-
-		return data;
-	}
-
 	handleUpdateClick = () => {
 		// fetch trae los datos del server para poder
 		// usarlos en nuestro navegador
@@ -70,7 +38,7 @@ class  WeatherLocation extends Component {
 			// de cabecera, pero no los datos que quiero
 			return resolve.json();
 		}).then(data => {
-			const newWeather = this.getData(data);
+			const newWeather = transformWeather(data);
 			console.log(newWeather);
 			debugger;
 			//! si no uso setState, la informacion no se actualiza nunca

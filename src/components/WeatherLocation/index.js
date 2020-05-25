@@ -58,7 +58,7 @@ class  WeatherLocation extends Component {
 			// esto va a devolver una promises, con los datos del clima que
 			// recibo del server, sino hago esto solo voy a ver la informacion
 			// de cabecera, pero no los datos que quiero
-			return resolve.json;
+			return resolve.json();
 		}).then(data => {
 			const newWeather = this.getData(data);
 			console.log(newWeather);

@@ -10,13 +10,13 @@ import './styles.css';
 
 class  WeatherLocation extends Component {
 
+//? (1) this.state es el estado local (parcial) de nuestro componente que
+//? 		va a ayudar que nuestro componente se renderice
+//? 		con 'this.' hago referencia a cosas que son propias del componente
 	constructor(props) {
 		super(props);
 		const { city } = props;
-		// this.state es el estado local (parcial) de nuestro componente que
-		// va a ayudar que nuestro componente se renderice
-		//? con 'this.' hago referencia a cosas que son propias del componente
-		this.state = {
+		this.state = { //! (1)
 			city,
 			data: null,
 		}
@@ -27,40 +27,50 @@ class  WeatherLocation extends Component {
 		this.handleUpdateClick();		
 	}
 	
-
+	
 	componentDidUpdate(prevProps, prevState) {
 		console.log("componentDidUpdate");
 	}
 	
-
+//? (1) fetch trae los datos del server para poder
+//? 		usarlos en nuestro navegador
+	
+//? (2) esto va a devolver una promises, con los datos del clima que
+//? 		recibo del server, sino hago esto solo voy a ver la informacion
+//? 		de cabecera, pero no los datos que quiero
+	
+//? (3) si no uso setState, la informacion no se actualiza nunca
+	
+//? (4) No hace falta pasar todos los datos, solo los que se van a cambiar
+//? 		es decir, no le paso city porque no lo voy a cambiar
+	
 	handleUpdateClick = () => {
-		// fetch trae los datos del server para poder
-		// usarlos en nuestro navegador
 		const api_weather = getUrlWeatherByCity(this.state.city);
-		fetch(api_weather).then( resolve => {
-			// esto va a devolver una promises, con los datos del clima que
-			// recibo del server, sino hago esto solo voy a ver la informacion
-			// de cabecera, pero no los datos que quiero
+		fetch(api_weather).then( resolve => { //! (1) (2)
 			return resolve.json();
 		}).then(data => {
 			const newWeather = transformWeather(data);
 			//console.log(newWeather);
 			//debugger;
-			//! si no uso setState, la informacion no se actualiza nunca
-			// No hace falta pasar todos los datos, solo los que se van a cambiar
-			// es decir, no le paso city porque no lo voy a cambiar
-			this.setState({ 
-				data: newWeather,
+			this.setState({ 		//! (3)
+				data: newWeather, //! (4)
 			})
 		});
-
 	}
+	
+//? (1) aprovecho destructuring para no poner todo el tiempo this.state
+//? 		no perder de vista a donde se hace referencia
+
+//? (2) lo espero de las propiedades
+
+//? (3) el `on click` me permite hacer que el componente escuche cuando es clickeado
+
 	render() {
-		// aprovecho destructuring para no poner todo el tiempo this.state
-		// no perder de vista a donde se hace referencia
-		const { city, data } = this.state; 	
+		const { city, data } = this.state; //! (1)
+		const { onWeatherLocationClick } = this.props; //! (2)
 		return (
-			<div className="weatherLocationCont">
+			//! (3)
+			<div className="weatherLocationCont" onClick={onWeatherLocationClick} >
 				<Location city={city}></Location>
 				{data ?
 					<WeatherData data={data}></WeatherData> :
@@ -72,7 +82,8 @@ class  WeatherLocation extends Component {
 }
 
 WeatherLocation.propTypes = {
-	 city: PropTypes.string.isRequired,
+	city: PropTypes.string.isRequired,
+	onWeatherLocationClick: PropTypes.func,
 }
 
 export default WeatherLocation;

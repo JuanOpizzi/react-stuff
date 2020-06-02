@@ -20,7 +20,7 @@ function App() {
   return (
     <div className="App">
       <LocationList cities={cities}
-        onSelectedLocation={this.handleSelectedLocation} >
+        onSelectedLocation={handleSelectedLocation} >
       </LocationList>
     </div>
   );

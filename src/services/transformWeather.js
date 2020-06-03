@@ -9,9 +9,9 @@ import {
 } from './../constants/weathers';
 
 
-// paso la temperatura de kelvin a celsius de 2 decimales
+// paso la temperatura de kelvin a celsius sin decimales
 const getTemp = kelvin => {
-  return Number(convert(kelvin).from("K").to("C").toFixed(2));
+  return Number(convert(kelvin).from("K").to("C").toFixed(0));
 }
 
 // obtengo el estado del clima

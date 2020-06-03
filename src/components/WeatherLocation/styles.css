@@ -1,3 +1,16 @@
+/* (1) De esta manera estamos alterando como se manejan los scroll bar */
+
+/* (2) Esto va a permitir que no se quiebre el titulo de cada uno de los location */
+
+/* (3) Es una propiedad nueva en CSS 3 que permite calcular un tamanio de ancho 
+      con el 100% del ancho - 20px, esto lo hago porque al tener los margin left 
+      y right me permite restar sus cantidades de pixeles del ancho */
+
+/* (4) Para que no se rompa al reducir el tamanio */
+
+/* (5) Esto lo que cambia es como se calcula el tamanio del componente
+      es por esto que me funciona el `calc` como lo puse*/
+
 .locationCont {
   width: 100%;
   height: 35px;
@@ -5,14 +18,20 @@
   padding-left: 10px;
   color: #888;
   line-height: 35px;
+  overflow: hidden; /* (1) */
 }
 
 .locationCont h1 {
   margin: 0;
+  white-space: nowrap; /* (2) */
 }
 
 .weatherLocationCont {
-  width: 400px;
+  width: calc(100% - 20px); /* (3) */
+  margin-left: 10px;
+  margin-right: 10px;
+  min-width: 350px; /* (4) */
+  box-sizing: border-box; /* (5) */
   padding: 15px;
   font-family: 'Roboto', 'sans-serif';
   box-shadow: 10px 10px 40px -12px rgba(0, 0, 0, 0.75);

@@ -1,0 +1,12 @@
+
+/* Aca estoy usando media query, que me permite establecer distintos estilos
+    en base al tamanio de la pantalla. Lo que hago es decirle que lo que tiene
+    adentro vale hasta el limite de tamanio que recibe */
+
+@media (max-width: 64em) {
+  .locationList {
+    max-width: 30vh;
+    overflow: auto;
+    margin-bottom: 20px;
+  }
+}

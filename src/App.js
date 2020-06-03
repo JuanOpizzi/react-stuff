@@ -46,7 +46,7 @@ function App() {
       <Row>
         <AppBar position='sticky'>
           <Toolbar>
-            <Typography variant='title' color='inherit'>
+            <Typography variant='h6' color='inherit'>
               Weather App
             </Typography>
           </Toolbar>

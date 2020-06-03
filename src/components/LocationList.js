@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import WeatherLocation from './WeatherLocation';
+import './styles.css';
 
 //? (1) onSelectedLocation va a ser el nombre del parametro de LocationList
 //?     ej: <LocationList onSelectedLocation={fn} />
@@ -13,6 +14,8 @@ import WeatherLocation from './WeatherLocation';
 
 //? (3) Ahi estoy escuchando, y cuando sucede el evento al que estoy
 //?     escuchando (el click), activo la arrow function que tiene
+
+//? (4) Aca pongo un className para ponerle estilo con CSS
 
 // Vamos a crear un componente funcional que es un componente
 // sin estado, tambien llamado stateless component
@@ -34,7 +37,7 @@ const LocationList = ({ cities, onSelectedLocation }) => {
   );
 
   return(
-    <div>
+    <div className='locationList' /* (4) */>
       {strToComponents(cities)}
     </div>);
 };

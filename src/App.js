@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Grid, Col, Row } from 'react-flexbox-grid';    //! (1)
-import Paper from '@material-ui/core/Paper';            // !(4)
+import Paper from '@material-ui/core/Paper';            //! (4)
 import AppBar from '@material-ui/core/AppBar';          //! (5)
 import Typography from '@material-ui/core/Typography';  //! (6)
 import Toolbar from '@material-ui/core/Toolbar';
 import LocationList from './components/LocationList';
+import ForecastExtended from './components/ForecastExtended';
+
 import './App.css';
 
 //? (1) Flexbox es una herramienta de display que me permite ordenar de manera
@@ -26,47 +28,66 @@ import './App.css';
 //? (6) clase que permite manejar cierta tipografia y su tamanio
 //?     que en este caso va a servir para el titulo
 
+//? (7) Solo se puede usar `this.state = ` en el constructor, y no la
+//?     puedo usar antes que el super constructor
+
+//? (8) Es como un operador ternario, pero me ahorro el else (seria como `else{ null }`)
+
 const cities = [
   'Buenos Aires,ar',
   'Bogota,col',
-  'Washington,us',
+  'Washington dc,us',
   'Madrid,es',
   'Ciudad de México,mx',
   'Lima,pe',
 ];
 
-function App() {
+class App extends Component {
 
-  const handleSelectedLocation = city => {
+  constructor() {
+    super();  //! (7)
+    this.state = {city: null};
+  }
+
+  handleSelectedLocation = city => {
+    this.setState({ city });
     console.log(`handleSelectedLocation ${city}`);
-  };
+  }
 
-  return (
-    <Grid>
-      <Row>
-        <AppBar position='sticky'>
-          <Toolbar>
-            <Typography variant='h6' color='inherit'>
-              Weather App
-            </Typography>
-          </Toolbar>
-        </AppBar>
-      </Row>
-      <Row>
-        <Col xs={12} md={6}/* !(2) */>
-          <LocationList
-            cities={cities}
-            onSelectedLocation={handleSelectedLocation} >
-          </LocationList>
-        </Col>
-        <Col xs={12} md={6}/* !(3) */>
-          <Paper elevation={4}>
-            <div className="details"></div>
-          </Paper>
-        </Col>
-      </Row>
-    </Grid>
-  );
+  render() {
+    const { city } = this.state;
+    return (
+      <Grid>
+        <Row>
+          <AppBar position='sticky'>
+            <Toolbar>
+              <Typography variant='h6' color='inherit'>
+                Weather App
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        </Row>
+        <Row>
+          <Col xs={12} md={6}/* !(2) */>
+            <LocationList
+              cities={cities}
+              onSelectedLocation={this.handleSelectedLocation} >
+            </LocationList>
+          </Col>
+          <Col xs={12} md={6}/* !(3) */>
+            <Paper elevation={4}>
+              <div className="details">
+                {
+                  city && //! (8)
+                  <ForecastExtended city={city}> </ForecastExtended>
+                }
+              </div>
+            </Paper>
+          </Col>
+        </Row>
+      </Grid>
+    );
+  }
 }
 
 export default App;

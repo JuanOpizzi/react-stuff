@@ -18,19 +18,17 @@ const getTemp = kelvin => {
 // todo: encontrar una mejor practica que cascadad de if's
 const getWeatherState = weather => {
   const { id } = weather;
-  if (id < 300) {
+  if (id < 300)
     return THUNDER;
-  } else if (id < 400) {
+  if (id < 400)
     return DRIZZLE;
-  } else if (id < 600) {
+  if (id < 600)
     return RAIN;
-  } else if (id < 700) {
+  if (id < 700)
     return SNOW;
-  } else if (id === 800) {
+  if (id === 800)
     return SUN;
-  } else {
-    return CLOUD;
-  }
+  return CLOUD;
 }
 
 // habiendo obtenido el json del server con los datos, los transformo

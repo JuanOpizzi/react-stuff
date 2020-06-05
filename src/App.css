@@ -37,8 +37,21 @@
   }
 }
 
+/* Correponde al cuadrado gris 
+  (1) El overflow habilita una barra de scroll para que el clima extendido
+  se vea bien y no salga fuera del cuadro gris.
+  (2) Hago un espacio del cuadro gris respecto de los componentes internos */
 .details {
   background: #999;
-  height: 100vh;
-  width:  100%;
+  height: 85vh;
+  width:  calc(100% - 40px);
+  overflow: auto;         /* (1) */
+  padding-left: 20px;   /* (2) */
+  padding-right: 20px;   /* (2) */
+}
+
+@media (max-width: 64em) {
+  .details {
+    height: 40vh;
+  }
 }

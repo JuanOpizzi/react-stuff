@@ -1,3 +1,7 @@
+.locationList {
+  max-height: 85vh;
+  overflow: auto;
+}
 
 /* Aca estoy usando media query, que me permite establecer distintos estilos
     en base al tamanio de la pantalla. Lo que hago es decirle que lo que tiene
@@ -5,8 +9,7 @@
 
 @media (max-width: 64em) {
   .locationList {
-    max-width: 30vh;
-    overflow: auto;
+    max-height: 40vh;
     margin-bottom: 20px;
   }
 }

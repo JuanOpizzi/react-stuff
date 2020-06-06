@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Grid, Col, Row } from 'react-flexbox-grid';    //! (1)
+import { createStore } from 'redux';
 import Paper from '@material-ui/core/Paper';            //! (4)
 import AppBar from '@material-ui/core/AppBar';          //! (5)
 import Typography from '@material-ui/core/Typography';  //! (6)
 import Toolbar from '@material-ui/core/Toolbar';
 import LocationList from './components/LocationList';
 import ForecastExtended from './components/ForecastExtended';
+import { setCity } from './actions';
 
 import './App.css';
 
@@ -42,6 +44,10 @@ const cities = [
   'Lima,pe',
 ];
 
+//* createStore se va a quedar esperando a un `reducer` que es una funcion pura
+const store = createStore(() => {},
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
 class App extends Component {
 
   constructor() {
@@ -49,9 +55,13 @@ class App extends Component {
     this.state = {city: null};
   }
 
+  //* el `dispatch` ayuda a disparar la accion, la cual va a ser un objeto que va a tener
+  //* un type (el nombre de la accion) y pasamos como valor la ciudad que seleccionamos
   handleSelectedLocation = city => {
     this.setState({ city });
     console.log(`handleSelectedLocation ${city}`);
+
+    store.dispatch(setCity(city));
   }
 
   render() {

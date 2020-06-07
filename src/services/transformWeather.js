@@ -1,4 +1,4 @@
-import convert from 'convert-units'; // libreria para cambiar de unidades
+import convert from 'convert-units'; //* Libreria para cambiar de unidades
 import {
   SUN,
   CLOUD,
@@ -9,13 +9,13 @@ import {
 } from './../constants/weathers';
 
 
-// paso la temperatura de kelvin a celsius sin decimales
+//* Paso la temperatura de kelvin a celsius sin decimales
 const getTemp = kelvin => {
   return Number(convert(kelvin).from("K").to("C").toFixed(0));
 }
 
-// obtengo el estado del clima
-// todo: encontrar una mejor practica que cascadad de if's
+//* Obtengo el estado del clima
+// todo: encontrar una mejor practica que cascada de if's
 const getWeatherState = weather => {
   const { id } = weather;
   if (id < 300)
@@ -31,16 +31,16 @@ const getWeatherState = weather => {
   return CLOUD;
 }
 
-// habiendo obtenido el json del server con los datos, los transformo
-// para mostrarlos como quiero en mi frontend
+//* Habiendo obtenido el json del server con los datos, los transformo
+//* para mostrarlos como quiero en mi frontend
 const transformWeather = weather_data => {
   const { humidity, temp }	= weather_data.main;
   const { speed }			= weather_data.wind;
   const	weatherState	= getWeatherState(weather_data.weather[0]);
   const temperature 	= getTemp(temp);
 
-  // aca hay sintatic sugar, si lo que recibo se llama igual donde lo guardo,
-  // puedo hacerme el ahorro de escribirlo 2 veces
+  //* Aca hay sintatic sugar, si lo que recibo se llama igual donde lo guardo,
+  //* puedo hacerme el ahorro de escribirlo 2 veces
   const data = {
     humidity,
     temperature,

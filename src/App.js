@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';                  //! (9)
 import { Grid, Col, Row } from 'react-flexbox-grid';    //! (1)
-import { createStore } from 'redux';
 import Paper from '@material-ui/core/Paper';            //! (4)
 import AppBar from '@material-ui/core/AppBar';          //! (5)
 import Typography from '@material-ui/core/Typography';  //! (6)
@@ -35,6 +35,27 @@ import './App.css';
 
 //? (8) Es como un operador ternario, pero me ahorro el else (seria como `else{ null }`)
 
+//? (9) Sirve para conectar react y redux, se va a usar sobre cada componente que quiera
+//?     darle acceso al store, de manera que va a "envolver" al componente y darle estas
+//?     caracteristicas extra (esta capacidad de acceder al store).
+//?     Connect es una funcion con particularidades, esta esperando 2 funciones como parametro
+//?     La segunda funcion que recibe es una que permite trabajar con las acciones (VER (10)) 
+//?     (el nombre puesto es un nombre estandar que se le pone).
+//?     Connect a su vez retorna otra funcion, y esta otra funcion esta esperando algo que le
+//?     pasemos como parametro, que es nuestro componente.
+//?     Habiendo dicho eso ya no vamos a exportar App (el componente) sino el componente con la
+//?     habilidad de conectarse con el store.
+
+//? (10) Lo que va a recibir esta funcion es `dispatch` que a su vez va a estar esperando que le
+//?      retornemos un objeto que va a tener las funciones que nosotros vamos a estar invocando
+//?      para hacer la creaciones de las acciones
+
+//? (11) Esto que hicimos deberia mantener las cosas funcionando como venian haciendo
+//?
+//?
+//?
+//?
+
 const cities = [
   'Buenos Aires,ar',
   'Bogota,col',
@@ -43,10 +64,6 @@ const cities = [
   'Ciudad de México,mx',
   'Lima,pe',
 ];
-
-//* createStore se va a quedar esperando a un `reducer` que es una funcion pura
-const store = createStore(() => {},
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 class App extends Component {
 
@@ -61,7 +78,7 @@ class App extends Component {
     this.setState({ city });
     console.log(`handleSelectedLocation ${city}`);
 
-    store.dispatch(setCity(city));
+    this.props.setCity(city);
   }
 
   render() {
@@ -100,4 +117,11 @@ class App extends Component {
   }
 }
 
-export default App;
+
+const mapDispatchToPropsActions = dispatch => ({ //! (10)
+  setCity: value => dispatch(setCity(value))     //! (11)
+});
+
+const AppConnected = connect(null, mapDispatchToPropsActions)(App);
+
+export default AppConnected;

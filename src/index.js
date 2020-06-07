@@ -1,12 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { store } from './store';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+//* El Provider lo que hace es proveer del store a los componentes que vivan en mi app.
+//* De esta manera los componentes internos van a tener acceso al store y no lo vamos a 
+//* necesitar declarar explicitamente en cada uno
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

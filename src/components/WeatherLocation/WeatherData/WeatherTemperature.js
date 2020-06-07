@@ -10,8 +10,8 @@ import {
     DRIZZLE,
 } from './../../../constants/weathers';
 
-// este es el mapeo entre el estado que le doy al clima
-// y el nombre del icono que se muestra
+//* Este es el mapeo entre el estado que le doy al clima
+//* y el nombre del icono que se muestra
 const icons = {
     [CLOUD]:    "cloud",
     [SUN]:      "day-sunny",

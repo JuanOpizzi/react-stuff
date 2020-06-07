@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ForecastItem from './ForecastItem';
 import transformForecast from './../services/transformForecast';
 import './styles.css';
-import WeatherData from './WeatherLocation/WeatherData';
 
 export const api_key = "b6b1125383df7195a4df361789c39110";
 export const url = "http://api.openweathermap.org/data/2.5/forecast";

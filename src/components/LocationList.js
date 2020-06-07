@@ -17,8 +17,8 @@ import './styles.css';
 
 //? (4) Aca pongo un className para ponerle estilo con CSS
 
-// Vamos a crear un componente funcional que es un componente
-// sin estado, tambien llamado stateless component
+//* Vamos a crear un componente funcional que es un componente
+//* sin estado, tambien llamado stateless component
 const LocationList = ({ cities, onSelectedLocation }) => {
 
   const handleWeatherLocationClick = city => {

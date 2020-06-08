@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';                  //! (9)
 import { Grid, Col, Row } from 'react-flexbox-grid';    //! (1)
+import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';            //! (4)
 import AppBar from '@material-ui/core/AppBar';          //! (5)
 import Typography from '@material-ui/core/Typography';  //! (6)
+import { connect } from 'react-redux';                  //! (9)
 import Toolbar from '@material-ui/core/Toolbar';
 import LocationList from './components/LocationList';
 import ForecastExtended from './components/ForecastExtended';
@@ -50,8 +51,11 @@ import './App.css';
 //?      retornemos un objeto que va a tener las funciones que nosotros vamos a estar invocando
 //?      para hacer la creaciones de las acciones
 
-//? (11) Esto que hicimos deberia mantener las cosas funcionando como venian haciendo
-//?
+//? (11) Esto que hicimos deberia mantener las cosas funcionando como venian haciendo.
+//?      Lo que hacemos con `dispatch` es llamar a nuestro action creator (setCity),luego genero
+//?      un objeto con una propiedad (setCity: value), dicha propiedades en realidad una funcion.
+//?      Es decir, devuelvo un objeto con una funcion. Que el objeto y el action creator
+//?      se llamen igual es casualidad, pueden llamarse distinto.
 //?
 //?
 //?
@@ -117,11 +121,13 @@ class App extends Component {
   }
 }
 
+App.propTypes =  {
+  setCity: PropTypes.func.isRequired,
+}
 
-const mapDispatchToPropsActions = dispatch => ({ //! (10)
+const mapDispatchToProps = dispatch => ({        //! (10)
   setCity: value => dispatch(setCity(value))     //! (11)
 });
 
-const AppConnected = connect(null, mapDispatchToPropsActions)(App);
-
-export default AppConnected;
+//* exporto lo que seria AppConnected
+export default connect(null, mapDispatchToProps)(App);

@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { Grid, Col, Row } from 'react-flexbox-grid';    //! (1)
-import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';            //! (4)
 import AppBar from '@material-ui/core/AppBar';          //! (5)
 import Typography from '@material-ui/core/Typography';  //! (6)
-import { connect } from 'react-redux';                  //! (9)
 import Toolbar from '@material-ui/core/Toolbar';
-import LocationList from './components/LocationList';
+import LocationListContainer from './containers/LocationListContainer';
 import ForecastExtended from './components/ForecastExtended';
-import { setCity } from './actions';
 
 import './App.css';
 
@@ -36,30 +33,6 @@ import './App.css';
 
 //? (8) Es como un operador ternario, pero me ahorro el else (seria como `else{ null }`)
 
-//? (9) Sirve para conectar react y redux, se va a usar sobre cada componente que quiera
-//?     darle acceso al store, de manera que va a "envolver" al componente y darle estas
-//?     caracteristicas extra (esta capacidad de acceder al store).
-//?     Connect es una funcion con particularidades, esta esperando 2 funciones como parametro
-//?     La segunda funcion que recibe es una que permite trabajar con las acciones (VER (10)) 
-//?     (el nombre puesto es un nombre estandar que se le pone).
-//?     Connect a su vez retorna otra funcion, y esta otra funcion esta esperando algo que le
-//?     pasemos como parametro, que es nuestro componente.
-//?     Habiendo dicho eso ya no vamos a exportar App (el componente) sino el componente con la
-//?     habilidad de conectarse con el store.
-
-//? (10) Lo que va a recibir esta funcion es `dispatch` que a su vez va a estar esperando que le
-//?      retornemos un objeto que va a tener las funciones que nosotros vamos a estar invocando
-//?      para hacer la creaciones de las acciones
-
-//? (11) Esto que hicimos deberia mantener las cosas funcionando como venian haciendo.
-//?      Lo que hacemos con `dispatch` es llamar a nuestro action creator (setCity),luego genero
-//?      un objeto con una propiedad (setCity: value), dicha propiedades en realidad una funcion.
-//?      Es decir, devuelvo un objeto con una funcion. Que el objeto y el action creator
-//?      se llamen igual es casualidad, pueden llamarse distinto.
-//?
-//?
-//?
-
 const cities = [
   'Buenos Aires,ar',
   'Bogota,col',
@@ -74,15 +47,6 @@ class App extends Component {
   constructor() {
     super();  //! (7)
     this.state = {city: null};
-  }
-
-  //* el `dispatch` ayuda a disparar la accion, la cual va a ser un objeto que va a tener
-  //* un type (el nombre de la accion) y pasamos como valor la ciudad que seleccionamos
-  handleSelectedLocation = city => {
-    this.setState({ city });
-    console.log(`handleSelectedLocation ${city}`);
-
-    this.props.setCity(city);
   }
 
   render() {
@@ -100,10 +64,9 @@ class App extends Component {
         </Row>
         <Row>
           <Col xs={12} md={6}/* !(2) */>
-            <LocationList
-              cities={cities}
-              onSelectedLocation={this.handleSelectedLocation} >
-            </LocationList>
+            <LocationListContainer
+              cities={cities} >
+            </LocationListContainer>
           </Col>
           <Col xs={12} md={6}/* !(3) */>
             <Paper elevation={4}>
@@ -121,13 +84,4 @@ class App extends Component {
   }
 }
 
-App.propTypes =  {
-  setCity: PropTypes.func.isRequired,
-}
-
-const mapDispatchToProps = dispatch => ({        //! (10)
-  setCity: value => dispatch(setCity(value))     //! (11)
-});
-
-//* exporto lo que seria AppConnected
-export default connect(null, mapDispatchToProps)(App);
+export default App;

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import ForecastExtended from './../components/ForecastExtended';
 
-//? (8) Es como un operador ternario, pero me ahorro el else (seria como `else{ null }`)
+//? (1) Es como un operador ternario, pero me ahorro el else (seria como `else{ null }`)
 
 class ForecastExtendedContainer extends Component {
   render() {
     return (
-        this.props.city && 
+        this.props.city &&  //! (1) 
         <ForecastExtended city={this.props.city} />
     );
   }

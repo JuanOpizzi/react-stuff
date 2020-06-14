@@ -5,7 +5,8 @@ import AppBar from '@material-ui/core/AppBar';          //! (5)
 import Typography from '@material-ui/core/Typography';  //! (6)
 import Toolbar from '@material-ui/core/Toolbar';
 import LocationListContainer from './containers/LocationListContainer';
-import ForecastExtended from './components/ForecastExtended';
+import ForecastExtendedContainer from './containers/ForecastExtendedContainer';
+//import ForecastExtended from './components/ForecastExtended';
 
 import './App.css';
 
@@ -28,11 +29,6 @@ import './App.css';
 //? (6) clase que permite manejar cierta tipografia y su tamanio
 //?     que en este caso va a servir para el titulo
 
-//? (7) Solo se puede usar `this.state = ` en el constructor, y no la
-//?     puedo usar antes que el super constructor
-
-//? (8) Es como un operador ternario, pero me ahorro el else (seria como `else{ null }`)
-
 const cities = [
   'Buenos Aires,ar',
   'Bogota,col',
@@ -44,13 +40,7 @@ const cities = [
 
 class App extends Component {
 
-  constructor() {
-    super();  //! (7)
-    this.state = {city: null};
-  }
-
   render() {
-    const { city } = this.state;
     return (
       <Grid>
         <Row>
@@ -71,10 +61,7 @@ class App extends Component {
           <Col xs={12} md={6}/* !(3) */>
             <Paper elevation={4}>
               <div className="details">
-                {
-                  city && //! (8)
-                  <ForecastExtended city={city}> </ForecastExtended>
-                }
+                  <ForecastExtendedContainer> </ForecastExtendedContainer>
               </div>
             </Paper>
           </Col>

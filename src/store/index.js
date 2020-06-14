@@ -5,8 +5,9 @@ import { city } from './../reducers/city';
 
 //* (2) El segundo parametro solo permite usar el plugin de chrome para ver los estados
 //*
+// todo: dejar un estado inicial no valido
 const initialState = {
-  city: 'sarasa lapapa'
+  city: 'Buenos Aires,ar'
 };
 
 //! (1)

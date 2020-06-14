@@ -40,15 +40,18 @@ class ForecastExtended extends Component {
 
   updateCity = city => {
     const url_forecast = `${url}?q=${city}&appid=${api_key}`;
+    console.error(url_forecast)
   
     fetch(url_forecast).then (  //! (1)
       data => (data.json())     //! (2)
     ).then(
-      weather_data => {         //! (3)
-        console.log(weather_data);
-        const forecastData = transformForecast(weather_data);
-        console.log(forecastData);
-        this.setState({ forecastData });
+      weather_data => {    
+        console.log(weather_data);    //! (3)
+        if (weather_data.cod !== "404") {
+          const forecastData = transformForecast(weather_data);
+          console.log(forecastData);
+          this.setState({ forecastData });
+        }
       }
     );
   }

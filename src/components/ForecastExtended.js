@@ -9,12 +9,22 @@ export const url = "http://api.openweathermap.org/data/2.5/forecast";
 
 class ForecastExtended extends Component {
 
+  //? (1) Hacemos un fetch al server, primero obtenemos la informacion que viene del server
+  //? (2) Ejecutamos lo que nos da los datos en formato JSON
+  //? (3) Obtenemos el weatherData, lo mostramos por pantalla. Cuando obtuvimos estos
+  //?     datos del server, los transformamos en un objeto y seteamos el estado
+
+  //? (4) En vez de tomarlo de las props como lo hicismos con city, lo vamos a tomar del 
+  //?     state porque es lo que nos va a tomar el servidor, no va a hacer una propiedad
+  //?     que se inyecte desde un componente externo sino se va a encargar el mismo 
+  //?     componente de obtenerla y establecerla en el state
+
+  //? (5) Setando forecastData a null lo que logro es que aparezca el indicador de carga.
+  
   constructor() {
     super();
     this.state = { forecastData: null }
   }
-
-  //? (5) Setando forecastData a null lo que logro es que aparezca el indicador de carga.
 
   //* Esta funcion de ejecuta cada vez que hay alguna actualizacion de las propiedades.
   //* Recibe por parametro las nuevas propiedades que se van a establecer.
@@ -31,12 +41,6 @@ class ForecastExtended extends Component {
       this.updateCity(nextProps.city);
     }
   }
-  
-
-  //? (1) Hacemos un fetch al server, primero obtenemos la informacion que viene del server
-  //? (2) Ejecutamos lo que nos da los datos en formato JSON
-  //? (3) Obtenemos el weatherData, lo mostramos por pantalla. Cuando obtuvimos estos
-  //?     datos del server, los transformamos en un objeto y seteamos el estado
 
   updateCity = city => {
     const url_forecast = `${url}?q=${city}&appid=${api_key}`;
@@ -78,11 +82,6 @@ class ForecastExtended extends Component {
   renderProgress = () => {
     return <h3>Cargando pronostico extendido...</h3>;
   }
-
-  //? (4) En vez de tomarlo de las props como lo hicismos con city, lo vamos a tomar del 
-  //?     state porque es lo que nos va a tomar el servidor, no va a hacer una propiedad
-  //?     que se inyecte desde un componente externo sino se va a encargar el mismo 
-  //?     componente de obtenerla y establecerla en el state
 
   render() {
     const { city } = this.props;

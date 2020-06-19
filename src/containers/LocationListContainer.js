@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';    //! (1)
-import { setCity } from './../actions';
+import { setSelectedCity } from './../actions';
 import LocationList from './../components/LocationList';
 
 //? (1) Sirve para conectar react y redux, se va a usar sobre cada componente que quiera
@@ -49,7 +49,7 @@ LocationListContainer.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({     //! (2)
-  setCity: value => dispatch(setCity(value))  //! (3)
+  setCity: value => dispatch(setSelectedCity(value))  //! (3)
 });
 
 //* exporto lo que seria LocationListContainerConnected

@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { createSelector } from 'reselect';
 import { cities, getForecastDataFromCities as _getForecastDataFromCities } from './cities'; //! (1)
 import { city } from './city';
 
@@ -16,7 +17,7 @@ export default combineReducers({
 
 //! (2) segunda capa de selector para forecastExtended
 //* Aislo a forcastExtended de cualquier formato que tenga el estado global de la app
+//* VER la documentacion de createSelector
+export const getCity = createSelector(state => state.city, city => city); //! (2)
 
-export const getCity = state => state.city; //! (2)
-
-export const getForecastDataFromCities = state => (_getForecastDataFromCities(state.cities, getCity(state))); //! (2)
+export const getForecastDataFromCities = createSelector(state => state.cities, getCity, _getForecastDataFromCities); //! (2)

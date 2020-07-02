@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 import { SET_FORECAST_DATA } from './../actions';
 
 //? (1) Lo que nos esta viniendo en `action.payload` es `city` (la ciudad seleccionada) 
@@ -24,4 +25,5 @@ export const cities = (state = {}, action) => {
 //* `state[]` se refiere al estado de cities, no al estado global
 //* que es el diccionario de ciudades. 
 //* si existe el state de la city que quiero, solicito el forecastData
-export const getForecastDataFromCities = (state, city) => state[city] && state[city].forecastData
+export const getForecastDataFromCities = 
+        createSelector((state, city) => state[city] && state[city].forecastData, forecastData => forecastData);

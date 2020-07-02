@@ -19,3 +19,9 @@ export const cities = (state = {}, action) => {
       return state;
   }
 }
+
+//! Selector para aislar de forecastExtended del estado global de la app 
+//* `state[]` se refiere al estado de cities, no al estado global
+//* que es el diccionario de ciudades. 
+//* si existe el state de la city que quiero, solicito el forecastData
+export const getForecastDataFromCities = (state, city) => state[city] && state[city].forecastData

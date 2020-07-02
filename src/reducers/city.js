@@ -6,10 +6,10 @@ import { SET_CITY } from './../actions';
 //? (2) La clave "city" ya esta dada el nombre del reducer entonces ya esta la clave
 //?     solo falta asociar el valor
 
-export const city = (state = {}, action) => {       //! (1)
+export const city = (state = {}, action) => {   //! (1)
   switch (action.type) {
     case SET_CITY:
-        return action.payload;  //! (2)
+        return action.payload;                  //! (2)
     default:
       return state;
   }

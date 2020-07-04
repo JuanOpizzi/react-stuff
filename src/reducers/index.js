@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import { createSelector } from 'reselect';
-import { cities, getForecastDataFromCities as _getForecastDataFromCities } from './cities'; //! (1)
+import { cities, 
+    getForecastDataFromCities as _getForecastDataFromCities, 
+    getWeatherCities as _getWeatherCities} from './cities'; //! (1)
 import { city } from './city';
 
 //? (1) con el alias con guion bajo, me permite llamar desde donde quiera
@@ -21,3 +23,5 @@ export default combineReducers({
 export const getCity = createSelector(state => state.city, city => city); //! (2)
 
 export const getForecastDataFromCities = createSelector(state => state.cities, getCity, _getForecastDataFromCities); //! (2)
+
+export const getWeatherCities = createSelector(state => state.cities, _getWeatherCities);

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';    //! (1)
-import { setSelectedCity, setWeather } from './../actions';
-import { getWeatherCities } from './../reducers';
+import * as actions from './../actions';  //! (2)
+import { getWeatherCities, getCity } from './../reducers';
 import LocationList from './../components/LocationList';
 
 //? (1) Sirve para conectar react y redux, se va a usar sobre cada componente que quiera
@@ -16,30 +17,20 @@ import LocationList from './../components/LocationList';
 //?     Habiendo dicho eso ya no vamos a exportar App (el componente) sino el componente con la
 //?     habilidad de conectarse con el store.
 
-//? (2) Lo que va a recibir esta funcion es `dispatch` que a su vez va a estar esperando que le
-//?     retornemos un objeto que va a tener las funciones que nosotros vamos a estar invocando
-//?     para hacer la creaciones de las acciones
-
-//? (3) Esto que hicimos deberia mantener las cosas funcionando como venian haciendo.
-//?     Lo que hacemos con `dispatch` es llamar a nuestro action creator (setCity),luego genero
-//?     un objeto con una propiedad (setCity: value), dicha propiedades en realidad una funcion.
-//?     Es decir, devuelvo un objeto con una funcion. Que el objeto y el action creator
-//?     se llamen igual es casualidad, pueden llamarse distinto.
-
-//? (4) setWeather va a traer informacion de todos los climas de las ciudades.
-//?     Internamente la funcion va a estar estableciendo los datos dentro del
-//?     del array `cities` que luego le pasamos a LocationList
+//? (2) `*` implica que vamos a tomar todo lo que este dentro de ese archivo
 
 class LocationListContainer extends Component {
 
   componentDidMount() {
-    this.props.setWeather(this.props.cities);
+    const { setWeather, setSelectedCity, cities, city } = this.props;
+    setWeather(cities);
+    setSelectedCity(city);
   }
 
   //* el `dispatch` ayuda a disparar la accion, la cual va a ser un objeto que va a tener
   //* un type (el nombre de la accion) y pasamos como valor la ciudad que seleccionamos
   handleSelectedLocation = city => {
-    this.props.setCity(city);
+    this.props.setSelectedCity(city);
   }
 
   render() {
@@ -53,17 +44,21 @@ class LocationListContainer extends Component {
 }
 
 LocationListContainer.propTypes = {
-  setCity: PropTypes.func.isRequired,
+  setSelectedCity: PropTypes.func.isRequired,
+  setWeather: PropTypes.func.isRequired,
   cities: PropTypes.array.isRequired,
   citiesWeather: PropTypes.array,
+  city: PropTypes.string.isRequired,
 };
 
-const mapDispatchToProps = dispatch => ({     //! (2)
-  setCity: value => dispatch(setSelectedCity(value)),  //! (3)
-  setWeather: cities => dispatch(setWeather(cities))
-});
+//* Lo que va a hacer esto es bindear los createActions que esten dentro de actions
+//* y generar un objeto que va a tener las mismas propiedades que los actions que vienen
+const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
-const mapStateToProps = state => ({citiesWeather: getWeatherCities(state)});
+const mapStateToProps = state => ({
+  citiesWeather: getWeatherCities(state),
+  city: getCity(state)
+});
 
 //* exporto lo que seria LocationListContainerConnected
 //* es decir, el container de LocationList propiamente dicho

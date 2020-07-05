@@ -30,17 +30,28 @@ export const url_weather  = "http://api.openweathermap.org/data/2.5/weather";
 //? (7) fetch trae los datos del server para poder usarlos en nuestro navegador
 //? (8) esto va a devolver una promises, con los datos del clima que recibo del server, 
 //?     sino hago esto solo voy a ver la informacion de cabecera, pero no los datos que quiero
+//? (9) `getState es una funcion que me devuelve el estado global de la app`
+//? (10) La diferencia viene en milisegundos.
+//?      Si hace menos de un minuto pedi el clima extendido, no vuelvo a hacer la peticion
 
 //* Vamos a invocar a otras acciones que se  van a ejecutar en forma asincronica
 //* entonces esta va a ser una accion que llama a su vez a otras acciones para modificar el estado
 export const setSelectedCity = payload => { //! (1)
-  return dispatch => {
+  return (dispatch, getState) => { //! (9)
     const url_forecast = `${url}?q=${payload}&appid=${api_key}`;
     console.error(url_forecast)
 
     //! (2)
     //* Activar en el estado un indicador de busqueda de datos
     dispatch(setCity(payload));        //! (3)
+
+    const state = getState();
+    const date = state.cities[payload] && state.cities[payload].forecastDataDate;
+    const now  = new Date();
+
+    if (date && (now - date) < 1 * 60 * 1000) { //! (10)
+      return;
+    }
 
     return fetch(url_forecast).then (  //! (4)
       data => (data.json())            //! (5)
